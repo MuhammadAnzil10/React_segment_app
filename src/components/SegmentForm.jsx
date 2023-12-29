@@ -2,26 +2,22 @@ import SegmentHeader from "./SegementHeader.jsx";
 import { segmentLists } from "../constants.js";
 import { useState } from "react";
 import SelectOptions from "./SelectOptions.jsx";
+import Button from "./Button.jsx";
+import { isEqual } from "../helper.js";
+
 const SegmentForm = () => {
   const [segmentOptions, setSegmentOptions] = useState(segmentLists);
   const [selectedSchema, setSelectedSchema] = useState({});
   const [selectedSchemas, setSelectedSchemas] = useState([]);
+  const [segmentName, setSegmentName] = useState('')
+  
   
   const handlChange = async (e) => {
     const selectedLabel = e.target.options[e.target.selectedIndex].id;
     setSelectedSchema({ [e.target.value]: selectedLabel });
   };
 
-  const isEqual = (obj1, obj2) => {
-    let [key1] = Object.keys(obj2);
-
-    if (key1 === obj1.value) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
+  
   const handleSubmit = async (e) => {
     if (!selectedSchema) {
       return prompt("Please Select Options");
@@ -32,7 +28,6 @@ const SegmentForm = () => {
     );
     setSelectedSchema("");
   };
-
 
 
 
@@ -51,8 +46,10 @@ const SegmentForm = () => {
             type="text"
             id="segmentName"
             name="segmentName"
+            value={segmentName}
             className="border border-gray-300 rounded py-2 px-4  w-full"
             placeholder="Name of the segment"
+            onChange={e=>setSegmentName(e.target.value)}
           />
         </div>
         <div className="ml-6 my-10">
@@ -118,15 +115,7 @@ const SegmentForm = () => {
             Add new schema
           </p>
         </div>
-
-        {/* <div className="flex gap-4 mt-auto">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
-            Save the Segment
-          </button>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
-            Cancel
-          </button>
-        </div> */}
+      <Button selectedSchemas={selectedSchemas} segmentName={segmentName} />
       </form>
     </div>
   );
