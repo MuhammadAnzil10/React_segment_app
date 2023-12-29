@@ -4,6 +4,7 @@ import { useState } from "react";
 import SelectOptions from "./SelectOptions.jsx";
 import Button from "./Button.jsx";
 import { isEqual } from "../helper.js";
+import { toast } from "react-toastify";
 
 const SegmentForm = () => {
   const [segmentOptions, setSegmentOptions] = useState(segmentLists);
@@ -19,8 +20,9 @@ const SegmentForm = () => {
 
   
   const handleSubmit = async (e) => {
-    if (!selectedSchema) {
-      return prompt("Please Select Options");
+    
+    if (Object.keys(selectedSchema).length === 0) {
+      return toast.error("Please select schema")
     }
     setSelectedSchemas([...selectedSchemas, selectedSchema]);
     setSegmentOptions(
@@ -89,7 +91,7 @@ const SegmentForm = () => {
           <select
             name=""
             id=""
-            value={selectedSchema ? selectedSchema.value : selectedSchema}
+            value={selectedSchema ? selectedSchema.value : ""}
             onChange={handlChange}
             className="block appearance-none bg-white border w-60 border-gray-300
             text-gray-700 py-2 px-4 pr-8 rounded 

@@ -1,33 +1,31 @@
 import { useContext } from "react";
 import viewContext from "../context.js";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 
 const Button = ({ selectedSchemas, segmentName }) => {
   const { view, setView } = useContext(viewContext);
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!selectedSchemas || !segmentName){
-     return toast.error('Please check segment name and schema')
-      
+    if (!selectedSchemas || !segmentName) {
+      return toast.error("Please check segment name and schema");
     }
     try {
-      
-      await fetch('/api/88583004-a6c9-43b3-b301-e2fe72836c69',{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({"segment_name":segmentName,"schema":selectedSchemas})
-      })
-       toast.success("Data Successfully added")
-       setView(!view)
-      
-    } catch (error) {
-      
-    }
+      await fetch("/api/88583004-a6c9-43b3-b301-e2fe72836c69", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          segment_name: segmentName,
+          schema: selectedSchemas,
+        }),
+      });
+      toast.success("Data Successfully added");
+      setView(!view);
+    } catch (error) {}
   };
 
   const handleCancel = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setView(!view);
   };
 
